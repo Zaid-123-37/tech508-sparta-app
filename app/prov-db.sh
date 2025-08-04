@@ -6,8 +6,8 @@ set -e  # Stop script if any command fails
 echo "========================="
 echo " Updating System Packages"
 echo "========================="
-sudo apt-get update -y
-sudo apt-get upgrade -y
+sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
+sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 echo "System update complete."
 echo
 
@@ -26,13 +26,13 @@ echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gp
     sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list > /dev/null
 
 echo "Reloading package list..."
-sudo apt-get update -y
+sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 echo
 
 echo "==========================="
 echo " Installing MongoDB 7.0.22"
 echo "==========================="
-sudo apt-get install -y \
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
    mongodb-org=7.0.22 \
    mongodb-org-database=7.0.22 \
    mongodb-org-server=7.0.22 \
