@@ -15,7 +15,7 @@ echo "====================================="
 echo " Importing MongoDB 7.0 Public GPG Key"
 echo "====================================="
 curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
-    sudo gpg --dearmor -o /usr/share/keyrings/mongodb-server-7.0.gpg
+    sudo gpg --dearmor -o /usr/share/keyrings/mongodb-server-7.0.gpg -y
 echo "GPG key added."
 echo
 
