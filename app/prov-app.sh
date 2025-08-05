@@ -42,6 +42,7 @@ cd repo/app || { echo " Failed to cd into repo/app"; exit 1; }
 echo 
 echo " Setting Environment Variable for DB"
 echo 
+#Make sure ip is changed to DB ip
 export DB_HOST=mongodb://172.31.17.136:27017/posts
 echo " DB_HOST set to $DB_HOST"
 echo
