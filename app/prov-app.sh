@@ -1,8 +1,6 @@
 #!/bin/bash
 # prov-app.sh - Provision Sparta Test App on App VM
 
-set -e  # Exit immediately on error
-
 echo 
 echo " Updating System Packages"
 echo 
@@ -30,19 +28,16 @@ echo
 echo 
 echo " Cloning Sparta App from GitHub"
 echo 
-if [ ! -d "repo" ]; then
-  git clone https://github.com/Zaid-123-37/tech508-sparta-app.git repo
-  echo " Repository cloned."
-else
-  echo "ℹ Repo already exists, skipping clone."
-fi
-
-cd repo/app || { echo " Failed to cd into repo/app"; exit 1; }
+# Always clone fresh by deleting existing directory first
+rm -rf repo
+git clone https://github.com/Zaid-123-37/tech508-sparta-app.git repo
+echo " Repository cloned."
+echo
 
 echo 
 echo " Setting Environment Variable for DB"
 echo 
-# Make sure ip is changed to DB ip
+# Make sure IP is changed to DB IP
 export DB_HOST=mongodb://172.31.17.136:27017/posts
 echo " DB_HOST set to $DB_HOST"
 echo
@@ -61,8 +56,20 @@ if [ -n "$PID" ]; then
   sudo kill $PID
   echo " Port 3000 cleared."
 else
-  echo " Port 3000 is free."
+  echo " App not running. Port 3000 is free."
 fi
+echo
+
+echo " Installing PM2 (Node.js process manager)..."
+sudo npm install -g pm2
+echo " PM2 installed."
+
+echo " Starting app with PM2..."
+pm2 delete sparta-app || true  # Stop existing PM2 process if running
+pm2 start npm --name sparta-app -- start  # Start app using 'npm start'
+pm2 save
+echo " App is now running under PM2."
+echo " You can check with: pm2 list"
 echo
 
 echo " Starting the App"
