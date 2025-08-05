@@ -42,7 +42,7 @@ cd repo/app || { echo " Failed to cd into repo/app"; exit 1; }
 echo 
 echo " Setting Environment Variable for DB"
 echo 
-#Make sure ip is changed to DB ip
+# Make sure ip is changed to DB ip
 export DB_HOST=mongodb://172.31.17.136:27017/posts
 echo " DB_HOST set to $DB_HOST"
 echo
@@ -67,3 +67,16 @@ echo
 
 echo " Starting the App"
 npm start &
+
+echo
+echo " Configuring Nginx Reverse Proxy..."
+# Backup the default nginx config
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+
+# Replace try_files line with proxy_pass
+sudo sed -i 's|try_files .*;|proxy_pass http://localhost:3000;|' /etc/nginx/sites-available/default
+
+# Restart nginx to apply changes
+sudo systemctl restart nginx
+echo " Nginx reverse proxy configured. App is now accessible without :3000"
+echo
