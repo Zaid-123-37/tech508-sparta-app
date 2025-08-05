@@ -29,7 +29,6 @@ echo
 echo " Cloning Sparta App from GitHub"
 echo 
 # Always clone fresh by deleting existing directory first
-rm -rf repo
 git clone https://github.com/Zaid-123-37/tech508-sparta-app.git repo
 echo " Repository cloned."
 echo
@@ -61,7 +60,7 @@ fi
 echo
 
 echo " Installing PM2 (Node.js process manager)..."
-sudo npm install -g pm2
+npm install -g pm2
 echo " PM2 installed."
 
 echo " Starting app with PM2..."
@@ -72,8 +71,8 @@ echo " App is now running under PM2."
 echo " You can check with: pm2 list"
 echo
 
-echo " Starting the App"
-npm start &
+# echo " Starting the App"
+# npm start &
 
 echo
 echo " Configuring Nginx Reverse Proxy..."

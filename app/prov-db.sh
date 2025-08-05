@@ -62,12 +62,8 @@ echo "====================="
 sudo systemctl start mongod
 sudo systemctl enable mongod
 
-# Optional: show status (uncomment if you want to see it)
-# echo
-# echo "MongoDB service status:"
-# sudo systemctl status mongod
 
 echo
 echo "======================================="
-echo " MongoDB provisioned and running ✅"
+echo " MongoDB provisioned and running "
 echo "======================================="
