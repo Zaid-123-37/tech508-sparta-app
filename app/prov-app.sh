@@ -33,11 +33,15 @@ git clone https://github.com/Zaid-123-37/tech508-sparta-app.git repo
 echo " Repository cloned."
 echo
 
+echo
+cd repo/app
+echo "Changed to app directory: $(pwd)"
+
 echo 
 echo " Setting Environment Variable for DB"
 echo 
 # Make sure IP is changed to DB IP
-export DB_HOST=mongodb://172.31.17.136:27017/posts
+export DB_HOST=mongodb://172.31.21.64:27017/posts
 echo " DB_HOST set to $DB_HOST"
 echo
 
