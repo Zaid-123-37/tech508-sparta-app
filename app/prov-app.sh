@@ -16,6 +16,19 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y nginx
 echo " NGINX installed."
 echo
 
+echo
+echo " Configuring Nginx Reverse Proxy..."
+# Backup the default nginx config
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+
+# Replace try_files line with proxy_pass
+sudo sed -i 's|try_files .*;|proxy_pass http://localhost:3000;|' /etc/nginx/sites-available/default
+
+# Restart nginx to apply changes
+sudo systemctl restart nginx
+echo " Nginx reverse proxy configured. App is now accessible without :3000"
+echo
+
 echo 
 echo " Installing Node.js v20"
 echo 
@@ -52,16 +65,16 @@ npm install
 echo " NPM packages installed."
 echo
 
-echo " Checking if anything is already using port 3000..."
-PID=$(sudo lsof -t -i:3000 || true)
-if [ -n "$PID" ]; then
-  echo " Port 3000 is in use by PID $PID. Killing..."
-  sudo kill $PID
-  echo " Port 3000 cleared."
-else
-  echo " App not running. Port 3000 is free."
-fi
-echo
+# echo " Checking if anything is already using port 3000..."
+# PID=$(sudo lsof -t -i:3000 || true)
+# if [ -n "$PID" ]; then
+#   echo " Port 3000 is in use by PID $PID. Killing..."
+#   sudo kill $PID
+#   echo " Port 3000 cleared."
+# else
+#   echo " App not running. Port 3000 is free."
+# fi
+# echo
 
 echo " Installing PM2 (Node.js process manager)..."
 npm install -g pm2
@@ -78,15 +91,3 @@ echo
 # echo " Starting the App"
 # npm start &
 
-echo
-echo " Configuring Nginx Reverse Proxy..."
-# Backup the default nginx config
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-
-# Replace try_files line with proxy_pass
-sudo sed -i 's|try_files .*;|proxy_pass http://localhost:3000;|' /etc/nginx/sites-available/default
-
-# Restart nginx to apply changes
-sudo systemctl restart nginx
-echo " Nginx reverse proxy configured. App is now accessible without :3000"
-echo
